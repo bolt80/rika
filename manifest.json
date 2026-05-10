@@ -1,0 +1,44 @@
+{
+  "name": "Teh Rika — Camera Confidence Program",
+  "short_name": "Teh Rika",
+  "description": "Program latihan 30 hari Camera Confidence — 150 ide tugas, 6 kategori konten, 4 minggu program oleh SAE+ Bandung.",
+  "start_url": "./teh_rika_program.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1A1A1A",
+  "theme_color": "#FF5C5C",
+  "lang": "id",
+  "categories": ["lifestyle", "education", "productivity"],
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Tugas Hari Ini",
+      "short_name": "Tugas",
+      "description": "Langsung ke daftar 150 tugas",
+      "url": "./teh_rika_program.html#tugas",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Lihat Progress",
+      "short_name": "Progress",
+      "description": "Cek progress latihan kamera",
+      "url": "./teh_rika_program.html#progress",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    }
+  ]
+}
