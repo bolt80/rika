@@ -487,8 +487,17 @@ signInAnonymously(auth).catch(e => console.error('Auth error:', e));
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
-  userId = user.uid;
-  console.log('✅ Firebase user:', userId);
+
+  const saved = localStorage.getItem('rika-role');
+  let role = saved;
+  if (!role || !['teh-rika', 'sigit'].includes(role)) {
+    const pilih = confirm('Kamu siapa?\n\nOK = Teh Rika\nCancel = Sigit (Timekeeper)');
+    role = pilih ? 'teh-rika' : 'sigit';
+    localStorage.setItem('rika-role', role);
+  }
+
+  userId = role; // "teh-rika" atau "sigit"
+  console.log('✅ Login sebagai:', userId);
 
   try {
     const snap = await getDoc(doc(db, "progress", userId));
