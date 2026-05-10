@@ -692,206 +692,49 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+// ─── FIREBASE ───
+const app = initializeApp({
+  apiKey: "AIzaSyD-MU0xL8cSWo7M3Q2dAPNolShIrThases",
+  authDomain: "rika-4d202.firebaseapp.com",
+  projectId: "rika-4d202",
+  storageBucket: "rika-4d202.firebasestorage.app",
+  messagingSenderId: "953991633035",
+  appId: "1:953991633035:web:85d18677b70fd4b7939c8e"
+});
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 // ─── DATA ───
 const tasksData = {
-  A: [
-    "Masak sarapan favorit sambil cerita ke kamera",
-    "Review 3 bumbu dapur yang paling sering dipakai",
-    "Buat minuman sehat pagi — ceritakan resepnya",
-    "Tunjukkan isi kulkas + cerita belanja minggu ini",
-    "Masak nasi goreng versi Teh Rika",
-    "Buat telur dadar sambil tips atlet",
-    "Review brand beras favorit keluarga",
-    "Siapkan bekal Nazlan ke latihan basket",
-    "Buat jus buah sambil cerita manfaatnya",
-    "Review peralatan masak favorit di dapur",
-    "Masak sup ayam dari awal sampai selesai",
-    "Tunjukkan teknik potong sayur yang cepat",
-    "Ceritakan resep warisan dari orang tua",
-    "Review rice cooker / air fryer yang dipakai",
-    "Buat oat meal sehat ala atlet",
-    "Ceritakan makan malam ideal keluarga",
-    "Review snack sehat favorit buat anak latihan",
-    "Masak makanan Sunda favorit sambil cerita",
-    "Tips meal prep mingguan untuk ibu aktif",
-    "Buat minuman electrolyte alami untuk recovery",
-    "Review blender / juicer yang dipakai",
-    "Ceritakan kebiasaan makan keluarga atlet",
-    "Masak 1 menu dalam 10 menit — challenge",
-    "Review brand minyak goreng / bumbu favorit",
-    "Buat smoothie protein sambil tips nutrisi olahraga"
-  ],
-  B: [
-    "Siap-siap berangkat padel — dari rumah sampai keluar",
-    "Review raket padel favorit",
-    "Review outfit padel — apa yang nyaman dipakai",
-    "Stretching pagi 5 menit sambil ngobrol",
-    "Ceritakan kenapa suka padel dan mulai kapan",
-    "Review sepatu olahraga koleksi",
-    "Persiapan gym — tas, outfit, playlist",
-    "Ceritakan rutinitas fitness mingguan",
-    "Review suplemen / vitamin yang rutin diminum",
-    "Tips warming up sebelum padel",
-    "Ceritakan pertandingan padel paling seru",
-    "Review gym / lapangan padel yang biasa dikunjungi",
-    "Ceritakan perbedaan padel dan tenis dari pengalaman",
-    "Tips cooling down dan recovery setelah olahraga",
-    "Review tumbler / botol minum untuk olahraga",
-    "Ceritakan momen pertama kali coba padel",
-    "Tips main padel untuk pemula",
-    "Review headband / aksesoris olahraga",
-    "Ceritakan bagaimana olahraga mengubah hidup",
-    "Rekam perjalanan ke lapangan padel sambil ngobrol",
-    "Tips menjaga stamina sebagai ibu yang aktif",
-    "Review smartwatch / tracker yang dipakai",
-    "Ceritakan teman-teman padel favorit (tanpa muka kalau mau)",
-    "Tips olahraga di tengah kesibukan ibu rumah tangga",
-    "Review baju olahraga terbaru yang dibeli"
-  ],
-  C: [
-    "Morning routine dari bangun tidur sampai siap",
-    "Night routine sebelum tidur — skincare + winding down",
-    "Tur singkat area favorit di rumah",
-    "Review produk kebersihan rumah yang dipakai",
-    "Tips beres-beres cepat — less than 30 menit",
-    "Dekorasi favorit di rumah dan ceritanya",
-    "Review tempat tidur / bantal favorit",
-    "Ceritakan rutinitas Jumat — bersih-bersih rumah",
-    "Review diffuser / lilin aromaterapi favorit",
-    "Tips mengatur lemari baju agar rapi",
-    "Review detergen / pewangi baju yang dipakai",
-    "Ceritakan area favorit di rumah untuk santai",
-    "Review kursi / sofa favorit",
-    "Tips menjaga rumah tetap wangi sepanjang hari",
-    "Ceritakan bagaimana rumah didesain / didekorasi",
-    "Review tanaman hias di rumah",
-    "Tips mengatur jadwal rumah tangga harian",
-    "Review produk pembersih kamar mandi favorit",
-    "Ceritakan kebiasaan pagi sebelum semua keluarga bangun",
-    "Review lampu tidur / suasana kamar malam",
-    "Tips menjaga rumah tetap nyaman untuk keluarga atlet",
-    "Review seprei / bedcover yang dipakai",
-    "Ceritakan rutinitas weekend keluarga",
-    "Tips decluttering — lemari yang penuh barang",
-    "Review robot vacuum / alat kebersihan modern"
-  ],
-  D: [
-    "OOTD casual hari ini — ceritakan pilihan baju",
-    "OOTD olahraga — padel atau gym outfit",
-    "Unboxing belanja online yang baru datang",
-    "Review skincare rutin pagi dan malam",
-    "Review tas favorit untuk aktivitas sehari-hari",
-    "Koleksi sepatu — mana yang paling sering dipakai",
-    "Review produk sunscreen favorit",
-    "Tips mix and match baju casual untuk ibu aktif",
-    "Review brand fashion lokal yang suka dibeli",
-    "Unboxing belanja marketplace — honest review",
-    "Review topi / headwear koleksi",
-    "Tips belanja smart — quality vs price",
-    "Review parfum favorit sehari-hari",
-    "OOTD kondangan — ceritakan pilihan outfit",
-    "Review foundation / BB cream yang dipakai",
-    "Tips merawat sepatu agar awet",
-    "Review jam tangan / aksesoris favorit",
-    "Ceritakan brand fashion yang paling sering dibeli",
-    "Review jaket olahraga koleksi",
-    "Tips belanja online tanpa nyesal",
-    "OOTD untuk anter anak ke latihan basket",
-    "Review lipstik / lip product favorit",
-    "Ceritakan fashion style yang nyaman untuk ibu aktif",
-    "Review tote bag / tas belanja favorit",
-    "Tips mix and match outfit sporty-casual sehari-hari"
-  ],
-  E: [
-    "Ceritakan hari pertama Nazlan latihan basket",
-    "Rutinitas anter Nazlan ke latihan — rekam dari mobil",
-    "Nonton pertandingan Nazlan — ceritakan rasanya",
-    "Tips nyiapin bekal dan nutrisi untuk anak atlet",
-    "Ceritakan perubahan Nazlan dari program kamera (bulan 1–2)",
-    "Tips menjadi manager / support system anak atlet",
-    "Review tas Nazlan — apa saja isinya",
-    "Ceritakan pertandingan Nazlan yang paling tidak terlupakan",
-    "Tips komunikasi dengan anak yang aktif olahraga",
-    "Ceritakan bagaimana jadwal keluarga diatur untuk support Nazlan",
-    "Review sepatu basket Nazlan — sebagai ibu yang milihkan",
-    "Tips mendukung anak tanpa over-pressure",
-    "Ceritakan momen paling bangga jadi ibu Nazlan",
-    "Review jersey basket Nazlan",
-    "Tips menjaga semangat anak saat hasil belum sesuai harapan",
-    "Ceritakan sisi lain Nazlan yang tidak terlihat di kamera",
-    "Tips keseimbangan antara akademik dan olahraga anak",
-    "Ceritakan kenapa support program daily vlog Nazlan",
-    "Tips nutrisi recovery anak setelah latihan keras",
-    "Ceritakan perjalanan Nazlan dari tidak percaya diri ke mulai natural",
-    "Review buku / konten tentang parenting anak atlet",
-    "Tips komunikasi dengan pelatih anak",
-    "Ceritakan pengorbanan di balik layar mendampingi anak atlet",
-    "Harapan dan doa untuk perjalanan Nazlan ke depan",
-    "Pesan untuk para ibu yang punya anak bercita-cita tinggi"
-  ],
-  F: [
-    "Review warung makan favorit keluarga di Bandung",
-    "Jajan pasar pagi — review 3 jajanan",
-    "Review kafe terbaru yang dikunjungi",
-    "Ceritakan makanan Bandung yang paling kangen",
-    "Honest review restoran yang baru dicoba",
-    "Review minuman kekinian favorit",
-    "Ceritakan makanan favorit Nazlan setelah latihan",
-    "Review street food area sekitar rumah",
-    "Jelajah kuliner satu ruas jalan — micro food tour",
-    "Review tempat sarapan favorit di akhir pekan",
-    "Ceritakan makanan favorit sejak kecil",
-    "Review dessert / es krim favorit keluarga",
-    "Tips memilih restoran yang sehat untuk anak atlet",
-    "Review warung Sunda favorit",
-    "Ceritakan pengalaman makan di restoran paling berkesan",
-    "Review tempat nongkrong santai di Bandung",
-    "Jajan di pasar tradisional — review lengkap",
-    "Review makanan delivery favorit",
-    "Ceritakan perbedaan selera makan Teh Rika vs Nazlan",
-    "Honest rating 3 kafe Bandung dalam satu video",
-    "Review makanan oleh-oleh khas Bandung",
-    "Tips tempat makan yang cocok untuk keluarga aktif",
-    "Review minuman herbal / jamu yang sering diminum",
-    "Ceritakan restoran pertama yang diajak suami pacaran dulu",
-    "Top 5 kuliner Bandung versi Teh Rika"
-  ]
+  A: ["Masak sarapan favorit sambil cerita ke kamera","Review 3 bumbu dapur yang paling sering dipakai","Buat minuman sehat pagi — ceritakan resepnya","Tunjukkan isi kulkas + cerita belanja minggu ini","Masak nasi goreng versi Teh Rika","Buat telur dadar sambil tips atlet","Review brand beras favorit keluarga","Siapkan bekal Nazlan ke latihan basket","Buat jus buah sambil cerita manfaatnya","Review peralatan masak favorit di dapur","Masak sup ayam dari awal sampai selesai","Tunjukkan teknik potong sayur yang cepat","Ceritakan resep warisan dari orang tua","Review rice cooker / air fryer yang dipakai","Buat oat meal sehat ala atlet","Ceritakan makan malam ideal keluarga","Review snack sehat favorit buat anak latihan","Masak makanan Sunda favorit sambil cerita","Tips meal prep mingguan untuk ibu aktif","Buat minuman electrolyte alami untuk recovery","Review blender / juicer yang dipakai","Ceritakan kebiasaan makan keluarga atlet","Masak 1 menu dalam 10 menit — challenge","Review brand minyak goreng / bumbu favorit","Buat smoothie protein sambil tips nutrisi olahraga"],
+  B: ["Siap-siap berangkat padel — dari rumah sampai keluar","Review raket padel favorit","Review outfit padel — apa yang nyaman dipakai","Stretching pagi 5 menit sambil ngobrol","Ceritakan kenapa suka padel dan mulai kapan","Review sepatu olahraga koleksi","Persiapan gym — tas, outfit, playlist","Ceritakan rutinitas fitness mingguan","Review suplemen / vitamin yang rutin diminum","Tips warming up sebelum padel","Ceritakan pertandingan padel paling seru","Review gym / lapangan padel yang biasa dikunjungi","Ceritakan perbedaan padel dan tenis dari pengalaman","Tips cooling down dan recovery setelah olahraga","Review tumbler / botol minum untuk olahraga","Ceritakan momen pertama kali coba padel","Tips main padel untuk pemula","Review headband / aksesoris olahraga","Ceritakan bagaimana olahraga mengubah hidup","Rekam perjalanan ke lapangan padel sambil ngobrol","Tips menjaga stamina sebagai ibu yang aktif","Review smartwatch / tracker yang dipakai","Ceritakan teman-teman padel favorit (tanpa muka kalau mau)","Tips olahraga di tengah kesibukan ibu rumah tangga","Review baju olahraga terbaru yang dibeli"],
+  C: ["Morning routine dari bangun tidur sampai siap","Night routine sebelum tidur — skincare + winding down","Tur singkat area favorit di rumah","Review produk kebersihan rumah yang dipakai","Tips beres-beres cepat — less than 30 menit","Dekorasi favorit di rumah dan ceritanya","Review tempat tidur / bantal favorit","Ceritakan rutinitas Jumat — bersih-bersih rumah","Review diffuser / lilin aromaterapi favorit","Tips mengatur lemari baju agar rapi","Review detergen / pewangi baju yang dipakai","Ceritakan area favorit di rumah untuk santai","Review kursi / sofa favorit","Tips menjaga rumah tetap wangi sepanjang hari","Ceritakan bagaimana rumah didesain / didekorasi","Review tanaman hias di rumah","Tips mengatur jadwal rumah tangga harian","Review produk pembersih kamar mandi favorit","Ceritakan kebiasaan pagi sebelum semua keluarga bangun","Review lampu tidur / suasana kamar malam","Tips menjaga rumah tetap nyaman untuk keluarga atlet","Review seprei / bedcover yang dipakai","Ceritakan rutinitas weekend keluarga","Tips decluttering — lemari yang penuh barang","Review robot vacuum / alat kebersihan modern"],
+  D: ["OOTD casual hari ini — ceritakan pilihan baju","OOTD olahraga — padel atau gym outfit","Unboxing belanja online yang baru datang","Review skincare rutin pagi dan malam","Review tas favorit untuk aktivitas sehari-hari","Koleksi sepatu — mana yang paling sering dipakai","Review produk sunscreen favorit","Tips mix and match baju casual untuk ibu aktif","Review brand fashion lokal yang suka dibeli","Unboxing belanja marketplace — honest review","Review topi / headwear koleksi","Tips belanja smart — quality vs price","Review parfum favorit sehari-hari","OOTD kondangan — ceritakan pilihan outfit","Review foundation / BB cream yang dipakai","Tips merawat sepatu agar awet","Review jam tangan / aksesoris favorit","Ceritakan brand fashion yang paling sering dibeli","Review jaket olahraga koleksi","Tips belanja online tanpa nyesal","OOTD untuk anter anak ke latihan basket","Review lipstik / lip product favorit","Ceritakan fashion style yang nyaman untuk ibu aktif","Review tote bag / tas belanja favorit","Tips mix and match outfit sporty-casual sehari-hari"],
+  E: ["Ceritakan hari pertama Nazlan latihan basket","Rutinitas anter Nazlan ke latihan — rekam dari mobil","Nonton pertandingan Nazlan — ceritakan rasanya","Tips nyiapin bekal dan nutrisi untuk anak atlet","Ceritakan perubahan Nazlan dari program kamera (bulan 1–2)","Tips menjadi manager / support system anak atlet","Review tas Nazlan — apa saja isinya","Ceritakan pertandingan Nazlan yang paling tidak terlupakan","Tips komunikasi dengan anak yang aktif olahraga","Ceritakan bagaimana jadwal keluarga diatur untuk support Nazlan","Review sepatu basket Nazlan — sebagai ibu yang milihkan","Tips mendukung anak tanpa over-pressure","Ceritakan momen paling bangga jadi ibu Nazlan","Review jersey basket Nazlan","Tips menjaga semangat anak saat hasil belum sesuai harapan","Ceritakan sisi lain Nazlan yang tidak terlihat di kamera","Tips keseimbangan antara akademik dan olahraga anak","Ceritakan kenapa support program daily vlog Nazlan","Tips nutrisi recovery anak setelah latihan keras","Ceritakan perjalanan Nazlan dari tidak percaya diri ke mulai natural","Review buku / konten tentang parenting anak atlet","Tips komunikasi dengan pelatih anak","Ceritakan pengorbanan di balik layar mendampingi anak atlet","Harapan dan doa untuk perjalanan Nazlan ke depan","Pesan untuk para ibu yang punya anak bercita-cita tinggi"],
+  F: ["Review warung makan favorit keluarga di Bandung","Jajan pasar pagi — review 3 jajanan","Review kafe terbaru yang dikunjungi","Ceritakan makanan Bandung yang paling kangen","Honest review restoran yang baru dicoba","Review minuman kekinian favorit","Ceritakan makanan favorit Nazlan setelah latihan","Review street food area sekitar rumah","Jelajah kuliner satu ruas jalan — micro food tour","Review tempat sarapan favorit di akhir pekan","Ceritakan makanan favorit sejak kecil","Review dessert / es krim favorit keluarga","Tips memilih restoran yang sehat untuk anak atlet","Review warung Sunda favorit","Ceritakan pengalaman makan di restoran paling berkesan","Review tempat nongkrong santai di Bandung","Jajan di pasar tradisional — review lengkap","Review makanan delivery favorit","Ceritakan perbedaan selera makan Teh Rika vs Nazlan","Honest rating 3 kafe Bandung dalam satu video","Review makanan oleh-oleh khas Bandung","Tips tempat makan yang cocok untuk keluarga aktif","Review minuman herbal / jamu yang sering diminum","Ceritakan restoran pertama yang diajak suami pacaran dulu","Top 5 kuliner Bandung versi Teh Rika"]
 };
 
-const bonusData = [
-  "Senyum ke kamera selama 10 detik, natural",
-  "Jalan ke arah kamera lalu berhenti dan bicara",
-  "Duduk santai di sofa sambil cerita hari ini",
-  "Berdiri sambil cerita — tangan bebas bergerak",
-  "Bicara sambil minum kopi / teh",
-  "Ekspresi surprise — kaget natural",
-  "Ekspresi bangga — momen menang",
-  "Ekspresi serius tapi tetap warm",
-  "Tertawa natural ke kamera",
-  "Bicara sambil berjalan di dalam rumah",
-  "Bicara sambil masak tanpa melihat kamera terus",
-  "Ekspresi lelah tapi tetap menarik",
-  "Cerita 1 menit tanpa henti dan tanpa edit",
-  "Bicara ke kamera sambil melipat baju",
-  "Rekam diri dari kaca sambil cerita",
-  "Bicara sambil stretching ringan",
-  "Ekspresi kecewa — honest dan relatable",
-  "Tunjukkan 5 ekspresi berbeda dalam 30 detik",
-  "Jalan dari dalam ke luar rumah sambil bicara",
-  "Bicara ke kamera dari mobil (parkir)",
-  "Ekspresi excited — beli sesuatu yang ditunggu",
-  "Ngobrol santai seperti ke teman dekat",
-  "Ekspresi menjelaskan sesuatu dengan antusias",
-  "Bicara ke kamera tanpa baca teks — freestyle",
-  "Closing video: ucapkan kalimat penutup dengan percaya diri"
-];
+const bonusData = ["Senyum ke kamera selama 10 detik, natural","Jalan ke arah kamera lalu berhenti dan bicara","Duduk santai di sofa sambil cerita hari ini","Berdiri sambil cerita — tangan bebas bergerak","Bicara sambil minum kopi / teh","Ekspresi surprise — kaget natural","Ekspresi bangga — momen menang","Ekspresi serius tapi tetap warm","Tertawa natural ke kamera","Bicara sambil berjalan di dalam rumah","Bicara sambil masak tanpa melihat kamera terus","Ekspresi lelah tapi tetap menarik","Cerita 1 menit tanpa henti dan tanpa edit","Bicara ke kamera sambil melipat baju","Rekam diri dari kaca sambil cerita","Bicara sambil stretching ringan","Ekspresi kecewa — honest dan relatable","Tunjukkan 5 ekspresi berbeda dalam 30 detik","Jalan dari dalam ke luar rumah sambil bicara","Bicara ke kamera dari mobil (parkir)","Ekspresi excited — beli sesuatu yang ditunggu","Ngobrol santai seperti ke teman dekat","Ekspresi menjelaskan sesuatu dengan antusias","Bicara ke kamera tanpa baca teks — freestyle","Closing video: ucapkan kalimat penutup dengan percaya diri"];
 
 // ─── STATE ───
-const state = JSON.parse(localStorage.getItem('rika-state') || '{}');
+let state = {};
+let currentUserId = null;
 
-function saveState() {
+async function saveState() {
   localStorage.setItem('rika-state', JSON.stringify(state));
+  if (currentUserId) {
+    try {
+      await setDoc(doc(db, "progress", currentUserId), state);
+      console.log('✅ Saved to Firestore');
+    } catch(e) {
+      console.error('❌ Firestore error:', e);
+    }
+  }
   updateProgress();
 }
 
@@ -919,7 +762,6 @@ function renderTasks() {
     });
   });
 
-  // Bonus
   const bonusGrid = document.getElementById('bonus-grid');
   bonusData.forEach((task, i) => {
     const card = document.createElement('div');
@@ -933,9 +775,7 @@ function renderTasks() {
 function updateProgress() {
   let done = 0;
   Object.keys(tasksData).forEach(cat => {
-    tasksData[cat].forEach((_, i) => {
-      if (state[cat + (i+1)]) done++;
-    });
+    tasksData[cat].forEach((_, i) => { if (state[cat + (i+1)]) done++; });
   });
   const pct = Math.round((done / 150) * 100);
   document.getElementById('done-count').textContent = done;
@@ -979,19 +819,27 @@ function animateCount(el) {
 }
 const countObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      animateCount(e.target);
-      countObserver.unobserve(e.target);
-    }
+    if (e.isIntersecting) { animateCount(e.target); countObserver.unobserve(e.target); }
   });
 }, { threshold: 0.5 });
 document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
 
-// ─── INIT ───
-renderTasks();
-updateProgress();
+// ─── PWA ───
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.createElement('div');
+  banner.id = 'pwa-banner';
+  banner.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1A1A;color:white;padding:14px 24px;border-radius:100px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,0.3);font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid rgba(255,255,255,0.1);white-space:nowrap;`;
+  banner.innerHTML = `<img src="icon.png" style="width:32px;height:32px;border-radius:8px"><span>Download App ini yah teh</span><button id="pwa-install-btn" style="background:#FF5C5C;color:white;border:none;padding:8px 18px;border-radius:100px;font-weight:600;cursor:pointer;font-size:13px">Install</button><button onclick="document.getElementById('pwa-banner').remove()" style="background:transparent;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:20px;line-height:1">×</button>`;
+  document.body.appendChild(banner);
+  document.getElementById('pwa-install-btn').addEventListener('click', () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById('pwa-banner')?.remove(); });
+  });
+});
 
-// ─── SERVICE WORKER ───
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js')
@@ -1000,79 +848,31 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ─── FIREBASE CONFIG ───
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD-MU0xL8cSWo7M3Q2dAPNolShIrThases",
-  authDomain: "rika-4d202.firebaseapp.com",
-  projectId: "rika-4d202",
-  storageBucket: "rika-4d202.firebasestorage.app",
-  messagingSenderId: "953991633035",
-  appId: "1:953991633035:web:85d18677b70fd4b7939c8e",
-  measurementId: "G-G8GJ2N1842"
-};
+// ─── FIREBASE AUTH + LOAD DATA ───
+signInAnonymously(auth).catch(e => console.error('Auth error:', e));
 
-// ─── INSTALL PROMPT (PWA) ───
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.createElement('div');
-  banner.id = 'pwa-banner';
-  banner.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1A1A;color:white;padding:14px 24px;border-radius:100px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,0.3);font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid rgba(255,255,255,0.1);white-space:nowrap;`;
-  banner.innerHTML = `<img src="icon.png" style="width:32px;height:32px;border-radius:8px"><span>Download App ini yah teh</span><button onclick="installPWA()" style="background:#FF5C5C;color:white;border:none;padding:8px 18px;border-radius:100px;font-weight:600;cursor:pointer;font-size:13px">Install</button><button onclick="document.getElementById('pwa-banner').remove()" style="background:transparent;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:20px;line-height:1">×</button>`;
-  document.body.appendChild(banner);
-});
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+  currentUserId = user.uid;
+  console.log('✅ Logged in:', currentUserId);
 
-function installPWA() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById('pwa-banner')?.remove(); });
-  }
-}
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const app = initializeApp({
-    apiKey: "AIzaSyD-MU0xL8cSWo7M3Q2dAPNolShIrThases",
-    authDomain: "rika-4d202.firebaseapp.com",
-    projectId: "rika-4d202",
-    storageBucket: "rika-4d202.firebasestorage.app",
-    messagingSenderId: "953991633035",
-    appId: "1:953991633035:web:85d18677b70fd4b7939c8e"
-  });
-
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-
-  // Auto login anonymous
-  signInAnonymously(auth);
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) return;
-    const userId = user.uid;
-
-    // Load state dari Firestore
-    const snap = await getDoc(doc(db, "progress", userId));
+  // Load dari Firestore dulu, fallback ke localStorage
+  try {
+    const snap = await getDoc(doc(db, "progress", currentUserId));
     if (snap.exists()) {
-      const data = snap.data();
-      Object.assign(window.state, data);
-      // Re-render semua task card
-      document.querySelectorAll('.task-card').forEach(card => {
-        const num = card.querySelector('.task-num').textContent.trim();
-        // update visual sesuai state
-      });
-      window.updateProgress();
+      state = snap.data();
+      console.log('✅ Data loaded from Firestore');
+    } else {
+      state = JSON.parse(localStorage.getItem('rika-state') || '{}');
     }
+  } catch(e) {
+    console.error('Load error:', e);
+    state = JSON.parse(localStorage.getItem('rika-state') || '{}');
+  }
 
-    // Override saveState supaya sync ke Firestore
-    window.saveStateToFirestore = async () => {
-      await setDoc(doc(db, "progress", userId), window.state);
-    };
-  });
+  renderTasks();
+  updateProgress();
+});
 </script>
 </body>
 </html>
