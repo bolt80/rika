@@ -10,7 +10,7 @@ const DYNAMIC_CACHE = 'teh-rika-dynamic-v1';
 
 // Assets to cache on install (app shell)
 const PRECACHE_URLS = [
-  './teh_rika_program.html',
+  './index.html',
   './manifest.json',
   './icon.png',
   // Google Fonts — will be cached dynamically on first visit
