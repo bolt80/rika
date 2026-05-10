@@ -1031,28 +1031,48 @@ function installPWA() {
   }
 }
 </script>
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
+  const app = initializeApp({
     apiKey: "AIzaSyD-MU0xL8cSWo7M3Q2dAPNolShIrThases",
     authDomain: "rika-4d202.firebaseapp.com",
     projectId: "rika-4d202",
     storageBucket: "rika-4d202.firebasestorage.app",
     messagingSenderId: "953991633035",
-    appId: "1:953991633035:web:85d18677b70fd4b7939c8e",
-    measurementId: "G-G8GJ2N1842"
-  };
+    appId: "1:953991633035:web:85d18677b70fd4b7939c8e"
+  });
 
-  const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  window.db = db;
-  window.auth = auth;
+  // Auto login anonymous
+  signInAnonymously(auth);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    const userId = user.uid;
+
+    // Load state dari Firestore
+    const snap = await getDoc(doc(db, "progress", userId));
+    if (snap.exists()) {
+      const data = snap.data();
+      Object.assign(window.state, data);
+      // Re-render semua task card
+      document.querySelectorAll('.task-card').forEach(card => {
+        const num = card.querySelector('.task-num').textContent.trim();
+        // update visual sesuai state
+      });
+      window.updateProgress();
+    }
+
+    // Override saveState supaya sync ke Firestore
+    window.saveStateToFirestore = async () => {
+      await setDoc(doc(db, "progress", userId), window.state);
+    };
+  });
 </script>
 </body>
 </html>
