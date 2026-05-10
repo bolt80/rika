@@ -1031,5 +1031,28 @@ function installPWA() {
   }
 }
 </script>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-MU0xL8cSWo7M3Q2dAPNolShIrThases",
+    authDomain: "rika-4d202.firebaseapp.com",
+    projectId: "rika-4d202",
+    storageBucket: "rika-4d202.firebasestorage.app",
+    messagingSenderId: "953991633035",
+    appId: "1:953991633035:web:85d18677b70fd4b7939c8e",
+    measurementId: "G-G8GJ2N1842"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  window.db = db;
+  window.auth = auth;
+</script>
 </body>
 </html>
