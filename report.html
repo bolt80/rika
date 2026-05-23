@@ -741,16 +741,8 @@ const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'tr
 // CONVERT ANY YT URL TO EMBED FORMAT
 // =====================
 function toEmbedUrl(url) {
-  if (!url) return '';
-  url = url.trim();
-  if (url.match(/youtube\.com\/embed\/[a-zA-Z0-9_-]{11}/)) return url;
-  const w = url.match(/youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/);
-  if (w) return 'https://www.youtube.com/embed/' + w[1];
-  const s = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
-  if (s) return 'https://www.youtube.com/embed/' + s[1];
-  const sh = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
-  if (sh) return 'https://www.youtube.com/embed/' + sh[1];
-  return url;
+  const id = getYtId(url);
+  return id ? 'https://www.youtube-nocookie.com/embed/' + id : '';
 }
 
 // =====================
@@ -758,14 +750,27 @@ function toEmbedUrl(url) {
 // =====================
 function getYtId(url) {
   if (!url) return null;
-  const e = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
-  if (e) return e[1];
-  const w = url.match(/youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/);
-  if (w) return w[1];
-  const s = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
-  if (s) return s[1];
-  const sh = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
-  if (sh) return sh[1];
+  url = url.trim();
+  const patterns = [
+    /(?:youtube(?:-nocookie)?\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube(?:-nocookie)?\.com\/watch\?(?:.*&)?v=)([a-zA-Z0-9_-]{11})/,
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  try {
+    const parsed = new URL(url.startsWith('http') ? url : 'https://' + url);
+    if (parsed.hostname.includes('youtube.com')) {
+      const vid = parsed.searchParams.get('v');
+      if (vid && vid.length === 11) return vid;
+      const path = parsed.pathname.split('/');
+      const last = path[path.length - 1];
+      if (parsed.pathname.startsWith('/shorts/') && last.length === 11) return last;
+    }
+  } catch (e) {}
   return null;
 }
 
@@ -776,8 +781,12 @@ function getYtThumb(url) {
 
 function playInCard(thumbWrap, url) {
   const embedUrl = toEmbedUrl(url);
-  if (!embedUrl) { window.open(url, '_blank'); return; }
-  thumbWrap.innerHTML = '<iframe src="' + embedUrl + '?autoplay=1&rel=0&modestbranding=1&playsinline=1" style="position:absolute;inset:0;width:100%;height:100%;border:none;" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  if (!embedUrl) {
+    window.open(url.trim(), '_blank');
+    return;
+  }
+  const origin = window.location.origin || '';
+  thumbWrap.innerHTML = '<iframe src="' + embedUrl + '?autoplay=1&rel=0&modestbranding=1&playsinline=1' + (origin ? '&origin=' + encodeURIComponent(origin) : '') + '" style="position:absolute;inset:0;width:100%;height:100%;border:none;" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
 }
 
 // =====================
