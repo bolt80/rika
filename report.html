@@ -126,6 +126,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(26,18,24,.95);backdrop-
 .score-empty{font-size:.6rem;color:var(--muted)}
 .score-detail{font-size:.6rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 5px;margin-top:2px}
 .score-detail span{white-space:nowrap}
+.video-note{font-size:.72rem;color:var(--muted);line-height:1.4;margin-top:6px;min-height:2.6rem}
 .edit-hint{font-size:.55rem;color:var(--rose);letter-spacing:1px;text-transform:uppercase;opacity:0;transition:opacity .2s;text-align:center;padding-bottom:2px}
 .video-card:hover .edit-hint{opacity:1}
 
@@ -362,16 +363,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(26,18,24,.95);backdrop-
     <div class="report-month" data-month="2">
       <div class="report-card">
         <h3>📋 Bulan 1 — Mei · Private Confidence</h3>
-        <p>Program 30 hari pertama dirancang untuk membangun kepercayaan diri, kenyamanan, dan kebiasaan Rika saat berinteraksi dengan kamera.</p>
+        <p>Program 30 hari pertama dirancang untuk membangun kepercayaan diri, kenyamanan, dan kebiasaan Teh Rika saat berinteraksi dengan kamera.</p>
         <h4>1. Overview</h4>
         <p>Program dilaksanakan selama kurang lebih 30 hari dengan tujuan utama membangun kepercayaan diri secara natural dari lingkungan yang paling nyaman — kamar pribadi.</p>
         <hr>
         <h4>2. Program Execution</h4>
         <ul class="insight-list">
-          <li>Rika mengirimkan 1 video setiap hari (jika bolos, menjadi utang video besoknya)</li>
-          <li>Total video terkumpul: 26 video</li>
-          <li>Konten dilakukan secara mandiri dari kamar</li>
-          <li>Format: latihan bicara di depan kamera, aktivitas ringan sehari-hari, review sederhana</li>
+          <li>Teh Rika mengirimkan total 32 video, melebihi target awal yang ditetapkan.</li>
+          <li>Konten diproduksi secara mandiri, baik di dalam rumah maupun di luar rumah.</li>
+          <li>Format: latihan bicara di depan kamera, aktivitas ringan sehari-hari, dan review sederhana.</li>
         </ul>
         <hr>
         <h4>3. Progress & Development</h4>
@@ -385,9 +385,9 @@ header{position:sticky;top:0;z-index:100;background:rgba(26,18,24,.95);backdrop-
         <hr>
         <h4>4. Current Condition</h4>
         <ul class="insight-list">
-          <li>Sudah percaya diri membuat konten di dalam kamar</li>
-          <li>Mampu menyampaikan ide dengan cukup baik</li>
-          <li>Masih belum terbiasa membuat konten di luar kamar</li>
+          <li>Percaya diri stabil dalam setiap konten.</li>
+          <li>Sangat terbiasa membuat konten di luar rumah.</li>
+          <li>Adaptasi energi dan ekspresi lebih konsisten di berbagai lingkungan.</li>
         </ul>
         <hr>
         <h4>5. Key Insight</h4>
@@ -398,15 +398,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(26,18,24,.95);backdrop-
         </ul>
         <hr>
         <h4>6. Conclusion</h4>
-        <p>Program ini berhasil membangun fondasi awal kepercayaan diri Rika di depan kamera. Dengan dasar ini, proses pengembangan selanjutnya diharapkan berjalan lebih natural dan mencerminkan karakter Rika secara positif.</p>
+        <p>Program ini berhasil membangun fondasi awal kepercayaan diri Teh Rika di depan kamera. Kemampuan Teh Rika berada di luar ekspektasi dan melebihi target awal yang hanya menargetkan konten di dalam rumah, karena kebanyakan konten justru dihasilkan di luar rumah.</p>
       </div>
       <div class="report-card">
         <h3>🎯 Target Bulan 2 — Juni · Expanding Space</h3>
         <ul class="insight-list">
-          <li>Transisi dari kamar → area rumah (ruang tamu, dapur, dll)</li>
-          <li>Adaptasi dengan lingkungan yang sedikit lebih terbuka</li>
-          <li>Menambah variasi konten secara bertahap</li>
-          <li>Target: 28–30 video per bulan</li>
+          <li>Perkuat teknis produksi: hindari radio di mobil atau musik tempat umum yang dapat terindeks otomatis dan memicu banned video.</li>
+          <li>Sesuaikan artikulasi berdasarkan lokasi: jaga kejelasan di tempat sepi, dan tambahkan intonasi saat berada di keramaian.</li>
+          <li>Perhatikan kualitas suara agar noise minimal dan dialog tetap terdengar jernih.</li>
+          <li>Pilih lokasi yang mendukung, tetapi tetap menjaga standar audio dan produksi untuk publikasi aman.</li>
         </ul>
       </div>
     </div>
@@ -722,6 +722,7 @@ function renderGrid() {
     ].filter(Boolean).map(x=>`<span>${x}</span>`).join('') : '';
 
     const pid = `play-${currentMonth}-${d}`;
+    const noteText = (v && v.notes) ? v.notes : 'Belum ada catatan untuk video ini.';
 
     card.innerHTML = `
       <div class="vid-wrap">
@@ -744,6 +745,7 @@ function renderGrid() {
             : `<div class="score-empty">Belum dinilai</div>`}
         </div>
         ${pills ? `<div class="score-detail">${pills}</div>` : ''}
+        <div class="video-note">${noteText}</div>
         ${isAdmin ? `<div class="edit-hint">✎ EDIT</div>` : ''}
       </div>`;
 
